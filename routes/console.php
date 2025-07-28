@@ -18,7 +18,7 @@ Artisan::command('database:backup', function () {
 })->purpose('備份資料庫');
 
 
-Schedule::command('database:backup')->everyDay()->at('10:00')
+Schedule::command('database:backup')->daily()->at('10:00')
     ->onSuccess(function () {
         Log::info('✅ 資料庫備份任務成功執行！');
     })
