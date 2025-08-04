@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\DatabaseBackupNotification;
+use App\Notifications\BackupNotification;
 
 class DatabaseBackupJob implements ShouldQueue
 {
@@ -56,15 +56,19 @@ class DatabaseBackupJob implements ShouldQueue
 
     $process = new Process($command, null, $env);
     $process->run();
+    $lineRecipient = config('services.line.recipient');
+    $notificationEmail = config('services.backup.notification_email');
     if ($process->isSuccessful()) {
         file_put_contents($filePath, $process->getOutput());
         Log::info("✅ Backup succeeded : {$filePath}");
-        Notification::route('mail', 'example@example.com')
-            ->notify(new DatabaseBackupNotification('success', $filename));
+        Notification::route('mail', $notificationEmail)
+            ->route('line', $lineRecipient)
+            ->notify(new BackupNotification('success', $filename));
     } else {
         Log::error("❌ Backup Failed：" . $process->getErrorOutput());
-        Notification::route('mail', 'example@example.com')
-            ->notify(new DatabaseBackupNotification('fail', $process->getErrorOutput()));
+        Notification::route('mail', $notificationEmail)
+            ->route('line', $lineRecipient)
+            ->notify(new BackupNotification('fail', $process->getErrorOutput()));
     }
     Log::info('✅ DatabaseBackupJob finished！');
     }

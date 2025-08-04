@@ -39,6 +39,12 @@ return [
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
         'scheme' => 'https',
+    ],
+    'line' => [
+        'token' => env('LINE_CHANNEL_ACCESS_TOKEN'),
+        'recipient' => env('LINE_RECIPIENT_ID'), // LINE Notify recipient ID
+    ],
+    'backup' => [
+        'notification_email' => env('BACKUP_NOTIFICATION_EMAIL', 'default@example.com')
     ]
-
 ];
