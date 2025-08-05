@@ -41,12 +41,12 @@ class BackupNotification extends Notification implements ShouldQueue // Ensure t
         $mail->greeting(false)
               ->salutation(false); // remove "Regards, Laravel"
         if ($this->status === 'success') {
-            Log::info('Backup successful, sending email notification.');
+            Log::info('✅ Backup successful, sending email notification.');
             return $mail->subject('Database Backup Successful')
                         ->line('Your database backup was successful.')
                         ->line('filename: ' . $this->filename);
         }
-        Log::info('Backup failed, sending email notification.');
+        Log::info('❌ Backup failed, sending email notification.');
         return $mail->subject('Database Backup Failed')
                     ->error()
                     ->line('Backup failed. Please check the logs for more details.');

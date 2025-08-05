@@ -22,7 +22,7 @@ class LineChannel
 
         $to = $notifiable->routeNotificationFor('line');
         if (empty($token) || empty($to)) {
-            Log::error('LINE notification missing required parameters: token=' . ($token ? 'OK' : 'Missing') . ', to=' . ($to ? 'OK' : 'Missing'));
+            Log::error('❌ LINE notification missing required parameters: token=' . ($token ? 'OK' : 'Missing') . ', to=' . ($to ? 'OK' : 'Missing'));
             return;
         }
         try {
@@ -39,14 +39,14 @@ class LineChannel
                 ]);
                 
             if ($response->successful()) {
-                Log::info('LINE message sent successfully');
+                Log::info('✅ LINE message sent successfully');
             } else {
-                Log::error('LINE message sending failed: ' . $response->body());
+                Log::error('❌ LINE message sending failed: ' . $response->body());
             }
             
             return $response;
         } catch (\Exception $e) {
-            Log::error('LINE message sending failed: ' . $e->getMessage());
+            Log::error('❌ LINE message sending failed: ' . $e->getMessage());
         }
     }
 }

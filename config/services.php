@@ -45,6 +45,16 @@ return [
         'recipient' => env('LINE_RECIPIENT_ID'), // LINE Notify recipient ID
     ],
     'backup' => [
-        'notification_email' => env('BACKUP_NOTIFICATION_EMAIL', 'default@example.com')
+        'notification_email' => env('BACKUP_NOTIFICATION_EMAIL', 'default@example.com'),
+        'storage_path' => env('BACKUP_STORAGE_PATH', 'app/public/backups'),
+        'database' => [
+            'db_type' => env('BACKUP_DB_TYPE', 'pgsql'),
+            'db_host' => env('BACKUP_DB_HOST', 'localhost'),
+            'db_port' => env('BACKUP_DB_PORT', '5432'),
+            'db_database' => env('BACKUP_DB_DATABASE', 'laravel'),
+            'db_username' => env('BACKUP_DB_USERNAME', 'laravel'),
+            'db_password' => env('BACKUP_DB_PASSWORD', 'laravelpassword'),
+        ],
+        'dump_path' => env('BACKUP_PG_DUMP_PATH', '/usr/bin/pg_dump'),
     ]
 ];

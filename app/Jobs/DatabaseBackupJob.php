@@ -35,24 +35,18 @@ class DatabaseBackupJob implements ShouldQueue
     $filename = "backup-{$date}.sql";
     $filePath = storage_path("app/public/backups/{$filename}");
 
-    $config = [
-        'host' => 'example-host',
-        'port' => '5432',
-        'database' => 'example_db',
-        'username' => 'example_user',
-        'password' => 'example_password',
-    ];
+    $config = config('services.backup.database');
 
-    $pgDumpPath = '/example/path/to/pg_dump';
+    $dumpPath = config('services.backup.dump_path');
     $command = [
-        $pgDumpPath,
-        '-h', $config['host'],
-        '-p', $config['port'],
-        '-U', $config['username'],
-        $config['database']
+        $dumpPath,
+        '-h', $config['db_host'],
+        '-p', $config['db_port'],
+        '-U', $config['db_username'],
+        $config['db_database']
     ];
 
-    $env = ['PGPASSWORD' => $config['password']];
+    $env = ['PGPASSWORD' => $config['db_password']];
 
     $process = new Process($command, null, $env);
     $process->run();
